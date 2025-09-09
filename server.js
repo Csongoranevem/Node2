@@ -11,11 +11,7 @@ app.use(cors())
 app.use(express.json()) // json formátum megkövetelése
 app.use(express.urlencoded({extended: true})) // req body-n keresztül adatátmenet
 
-let users = [
-    {name: "Jonatan", 
-    email: "turr@turr.hu", 
-    password: "12234"}
-]
+let users = [{}]
 const USERS_FILE = path.join(__dirname, 'users.json')
 
 //Endpointok
@@ -35,12 +31,15 @@ app.get('/users', (req, res) => {
   app.post('/users', (req, res) => {
     let data   = req.body
     data.id = getNextId()
+    console.log(data.id)
     users.push(data)
     if (EmailExists(data.email)) {
       return res.status(400).send({msg: 'Létező fiók'})
     }
     res.send(users)
     saveUser()
+
+
   })
 
   app.delete('/users/:id', (req, res) => {
@@ -89,6 +88,7 @@ function getNextId() {
         }
       }
 
+
       return users[maxIndex].id + 1
     }
 
@@ -122,3 +122,4 @@ function EmailExists(email) {
     }
   })
 }
+
