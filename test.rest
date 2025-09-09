@@ -1,0 +1,29 @@
+### GET / route
+GET http://localhost:3000
+Content-Type: application/json
+
+### GET users
+GET http://localhost:3000/users
+Content-Type: application/json
+
+### GET one user
+GET http://localhost:3000/user1
+Content-Type: application/json
+
+### POST new user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+    "name": "Loll", 
+    "email": "turr@turr.hu", 
+    "password": "1234"
+}
+
+### DELETE user by id
+DELETE  http://localhost:3000/users
+Content-Type: application/json
+
+### PATCH user by id
+PATCH http://localhost:3000/users
+Content-Type: application/json
