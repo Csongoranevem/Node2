@@ -15,9 +15,8 @@ POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "name": "Loll", 
-    "email": "turr@turr.hu", 
-    "password": "1234"
+    "email": "vik@gmail.hu", 
+    "password": "aaa"
 }
 
 ### DELETE user by id
@@ -27,3 +26,12 @@ Content-Type: application/json
 ### PATCH user by id
 PATCH http://localhost:3000/users
 Content-Type: application/json
+
+### SEND logged user
+POST http://localhost:3000/users/login
+Content-Type: application/json
+
+{
+    "email": "vik@gmail.hu", 
+    "password": "aaa"
+}

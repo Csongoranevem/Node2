@@ -11,19 +11,19 @@ app.use(cors())
 app.use(express.json()) // json formátum megkövetelése
 app.use(express.urlencoded({extended: true})) // req body-n keresztül adatátmenet
 
-let users = [{}]
+let users = []
 const USERS_FILE = path.join(__dirname, 'users.json')
 
 //Endpointok
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.send('Bajai SZC Türr István Technikum - 13.A szoft')
 })
 
-app.get('/users', (req, res) => {
+app.get('/users', (_req, res) => {
     res.send(users)
   })
   
-  app.get('/user1', (req, res) => {
+  app.get('/user1', (_req, res) => {
     let user1 = users.find(u => u.id == 1)
     res.send(user1.name)
   })
@@ -70,6 +70,18 @@ app.get('/users', (req, res) => {
 
   })
 
+  app.post('/users/login', (req, res) => {
+    let {email, password} = req.body
+    let loggedUser = {}
+    users.forEach(user => {
+      if (user.email == email && user.password == password) {
+        loggedUser = user
+        return
+      }
+    })
+    res.send(loggedUser)
+  })
+
 //res.status(200).send(body)
 
 //loadUsers()
@@ -79,8 +91,13 @@ app.listen(3000)
 
 
 function getNextId() {
+
   let maxIndex = 0
   let nexID = 1
+
+  if (users.length == 0) {
+    return nexID
+  }
     for (let i = 0; i < users.length; i++) {
         if (users[i].id > users[maxIndex].id) {
           maxIndex = i
@@ -97,7 +114,8 @@ function loadUsers() {
   if (fs.existsSync(USERS_FILE)) {
     const raw = fs.readFileSync(USERS_FILE)
     try {
-      users.JSON.parse(raw)
+      
+      users = JSON.parse(raw)
     } catch (err) {
       console.log('Hiba az adatok beolvasásában', err);
       users = []
@@ -123,3 +141,4 @@ function EmailExists(email) {
   })
 }
 
+loadUsers()
