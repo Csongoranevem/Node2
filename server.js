@@ -5,6 +5,7 @@ const app = express()
 const fs = require('fs')
 const path = require('path')
 var cors = require('cors')
+const e = require('cors')
 
 
 app.use(cors())
@@ -28,14 +29,15 @@ app.get('/users', (_req, res) => {
     res.send(user1.name)
   })
   
-  app.post('/users', (req, res) => {
+  app.post('/users/registration', (req, res) => {
     let data   = req.body
     data.id = getNextId()
-    console.log(data.id)
-    users.push(data)
     if (EmailExists(data.email)) {
       return res.status(400).send({msg: 'Létező fiók'})
     }
+
+    users.push(data)
+
     res.send(users)
     saveUser()
 
@@ -81,6 +83,20 @@ app.get('/users', (_req, res) => {
     })
     res.send(loggedUser)
   })
+
+app.patch('/users/:id', (req, res) => {
+  let id = req.params.id
+  let data = req.body
+
+  let idx = users.findIndex(user => user.id == id)
+  if (idx > -1) {
+    users[idx] = { ...users[idx], ...data, id: Number(id) }
+    saveUser()
+    return res.send(users[idx])
+  }
+  return res.status(400).send('Nincs ilyen adat')
+})
+
 
 //res.status(200).send(body)
 
@@ -132,13 +148,7 @@ function saveUser() {
 
 
 function EmailExists(email) {
-  let exists = false
-  users.forEach(user => {
-    if (user.email == email) {
-      exists = true
-      return
-    }
-  })
+  return users.some(user => user.email === email)
 }
 
 loadUsers()
