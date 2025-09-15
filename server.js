@@ -15,7 +15,12 @@ app.use(express.urlencoded({extended: true})) // req body-n keresztül adatátme
 let users = []
 const USERS_FILE = path.join(__dirname, 'users.json')
 
+
+
 //Endpointok
+
+
+//--------------------------------- U S E R E K --------------------------------------
 app.get('/', (_req, res) => {
   res.send('Bajai SZC Türr István Technikum - 13.A szoft')
 })
@@ -68,8 +73,6 @@ app.get('/users', (_req, res) => {
       return res.send('Módosítva')
     }
     return res.send('Nincs ilyen adat')
-
-
   })
 
   app.post('/users/login', (req, res) => {
@@ -97,10 +100,58 @@ app.patch('/users/:id', (req, res) => {
   return res.status(400).send('Nincs ilyen adat')
 })
 
+app.post('/users/registration', (req, res) => {
+  let data   = req.body
+  if (EmailExists(data.email)) {
+    return res.status(400).send({msg: 'Létező e-mail cím'})
+  }
 
-//res.status(200).send(body)
+  return res.status(200)
+})
 
-//loadUsers()
+
+
+//---------------------------- LÉPÉSEK KEZELÉSE --------------------------------
+let stepData = [{steps: 200}]
+const STEPCOUNT_FILE = path.join(__dirname, 'stepdata.json')
+
+
+//POST new steps by user
+
+//GET one step by ID
+app.get('/stepdataGETall', (req, res) => {
+  let response = stepData.filter(id => id.userID == req.body.userID)
+  saveStepData()
+
+  res.send(response)
+})
+//GET new stepData
+app.post('/stepdataAdd', (req, res) => {
+  let data = req.body
+  data.id = getNextIdStepdata()
+  stepData.push(data)
+  saveStepData()
+
+  res.send(stepData)
+})
+//PATCH step by ID
+app.patch('/stepdataUpdate/:id', (req, res) => {
+  let id = req.params.id
+  let data = req.body
+  let idx = stepData.findIndex(step => step.id == id)
+  if (idx > -1) {
+    stepData[idx] = { ...stepData[idx], ...data, id: Number(id) 
+  }
+    }
+})
+
+
+//DELETE step by ID
+
+//DELETE all steps by userID
+
+
+
 app.listen(3000)
 
 
@@ -142,8 +193,29 @@ function loadUsers() {
   }
 }
 
+function loadSteps() {
+  if (fs.existsSync(STEPCOUNT_FILE)) {
+    const raw = fs.readFileSync(STEPCOUNT_FILE)
+    try {
+      
+      stepData = JSON.parse(raw)
+    } catch (err) {
+      console.log('Hiba az adatok beolvasásában', err);
+      users = []
+    }
+  }
+  else{
+    saveUser()
+  }
+}
+
+
 function saveUser() {
   fs.writeFileSync(USERS_FILE, JSON.stringify(users))
+}
+
+function saveStepData() {
+  fs.writeFileSync(STEPCOUNT_FILE, JSON.stringify(stepData))
 }
 
 
@@ -151,4 +223,28 @@ function EmailExists(email) {
   return users.some(user => user.email === email)
 }
 
+function getNextIdStepdata() {
+
+  let maxIndex = 0
+  let nexID = 1
+
+  if (stepData.length == 0) {
+    return nexID
+  }
+    for (let i = 0; i < stepData.length; i++) {
+        if (stepData[i].id > stepData[maxIndex].id) {
+          maxIndex = i
+          nextID = stepData[maxIndex].id
+        }
+      }
+
+
+      return stepData[maxIndex].id + 1
+    }
+
+function getUserID(){
+
+}
+
 loadUsers()
+loadSteps()

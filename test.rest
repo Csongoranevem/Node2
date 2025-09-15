@@ -14,10 +14,6 @@ Content-Type: application/json
 POST http://localhost:3000/users
 Content-Type: application/json
 
-{
-    "email": "vik@gmail.hu", 
-    "password": "aaa"
-}
 
 ### DELETE user by id
 DELETE  http://localhost:3000/users
@@ -31,7 +27,15 @@ Content-Type: application/json
 POST http://localhost:3000/users/login
 Content-Type: application/json
 
-{
-    "email": "vik@gmail.hu", 
-    "password": "aaa"
-}
+### POST stepdata
+POST  http://localhost:3000/stepDataAdd
+Content-Type: application/json
+
+
+### GET stepdata
+GET  http://localhost:3000/stepdataGETall
+Content-Type: application/json
+
+### pATCH stepdata
+PATCH  http://localhost:3000/stepdataUpdate
+Content-Type: application/json
