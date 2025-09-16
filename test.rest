@@ -33,9 +33,24 @@ Content-Type: application/json
 
 
 ### GET stepdata
-GET  http://localhost:3000/stepdataGETall
+GET  http://localhost:3000/stepdataFill/4
 Content-Type: application/json
 
-### pATCH stepdata
-PATCH  http://localhost:3000/stepdataUpdate
+### PATCH stepdata
+PATCH  http://localhost:3000/stepdataUpdate/1
+Content-Type: application/json
+
+{
+    "userID": "4",
+    "stepCount": "335",
+    "date": "2025-09-04",
+    "id": 1
+}
+
+### DELETE stepdata by id
+DELETE  http://localhost:3000/stepdataDelete/1
+Content-Type: application/json
+
+### DELETE stepdata by userID
+DELETE  http://localhost:3000/stepdataDeleteAll/:4
 Content-Type: application/json
