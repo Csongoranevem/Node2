@@ -1,16 +1,15 @@
 {
-  "name": "node2",
+  "name": "lepesszamlalo",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A Javascript lépésszámláló alkalmazás backendje",
+  "main": "server.js",
   "scripts": {
-    "test": "node server",
+    "start": "node server",
     "dev": "nodemon server"
   },
-  "author": "",
+  "author": "NSZ",
   "license": "ISC",
   "dependencies": {
-    "@mariojgt/wind-notify": "^1.0.5",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "fs": "^0.0.1-security",
@@ -18,5 +17,8 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
+  },
+  "nodemonConfig": {
+    "ignore": ["database/**", "node_modules/**", ".git/**"]
   }
 }

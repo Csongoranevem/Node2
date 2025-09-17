@@ -1,56 +1,102 @@
 ### GET / route
+
 GET http://localhost:3000
 Content-Type: application/json
 
 ### GET users
+
 GET http://localhost:3000/users
 Content-Type: application/json
 
 ### GET one user
-GET http://localhost:3000/user1
+
+GET http://localhost:3000/users/1
 Content-Type: application/json
 
 ### POST new user
+
 POST http://localhost:3000/users
 Content-Type: application/json
 
+{  
+    "name": "Teszt Felhasználó", 
+    "email": "eva@gmail.com", 
+    "password": "Valami123" 
+}
 
 ### DELETE user by id
-DELETE  http://localhost:3000/users
+
+DELETE  http://localhost:3000/users/2
 Content-Type: application/json
 
 ### PATCH user by id
-PATCH http://localhost:3000/users
+
+PATCH http://localhost:3000/users/1
 Content-Type: application/json
 
-### SEND logged user
+{  
+    "name": "Béla", 
+    "age": 25, 
+    "gender": "male" 
+}
+
+### POST login
+
 POST http://localhost:3000/users/login
 Content-Type: application/json
 
-### POST stepdata
-POST  http://localhost:3000/stepDataAdd
+{
+    "email": "teszt@teszt.hu",
+    "password": "Ab123456a"
+}
+
+### GET all steps
+
+GET http://localhost:3000/steps
 Content-Type: application/json
 
+### GET all steps by userId
 
-### GET stepdata
-GET  http://localhost:3000/stepdataFill/4
+GET http://localhost:3000/steps/user/3
 Content-Type: application/json
 
-### PATCH stepdata
-PATCH  http://localhost:3000/stepdataUpdate/1
+### GET one step by id
+
+GET http://localhost:3000/steps/6
+
+### POST new step
+
+POST http://localhost:3000/steps
 Content-Type: application/json
 
 {
-    "userID": "4",
-    "stepCount": "335",
-    "date": "2025-09-04",
-    "id": 1
+    "userId": 4,
+    "date": "2025-09-12",
+    "stepcount": "8790"
 }
 
-### DELETE stepdata by id
-DELETE  http://localhost:3000/stepdataDelete/1
+### UPDATE step by id
+
+PATCH  http://localhost:3000/steps/6
 Content-Type: application/json
 
-### DELETE stepdata by userID
-DELETE  http://localhost:3000/stepdataDeleteAll/:4
+{
+    "userId": 1,
+    "date": "2025-09-13",
+    "stepcount": "2222"
+}
+
+### DELETE step by id
+
+DELETE http://localhost:3000/steps/6
+Content-Type: application/json
+
+### DELETE all steps of user by id
+
+DELETE http://localhost:3000/steps/user/2
+Content-Type: application/json
+
+### DELETE all steps of users
+
+DELETE http://localhost:3000/steps
 Content-Type: application/json
